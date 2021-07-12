@@ -1,8 +1,6 @@
-from msvcrt import getch
-from tkinter import Tk
 import os
-
 import pynput
+import time
 
 from pynput.keyboard import Key, Listener
 
@@ -14,6 +12,7 @@ class Patients:
     index = 0
     pause = False
     haveToQuit = False
+    finished = False
 
     Commands = ['m', 'M', 's', 'S', 'n', 'N', 'r', 'R', 'e', 'E']
 
@@ -36,6 +35,28 @@ class Patients:
             if key == Key.esc:
                 return False
             elif key == Key.enter:
+                if self.haveToQuit:
+                    if not self.finished:
+                        print("Saisie validé")
+                        self.__printPatients__()
+                        print("Appuyer sur entrez pour quitter")
+                        self.finished = True
+                    else:
+                        return False
+            elif key == Key.backspace:
+                if self.finished:
+                    return True
+                if not self.haveToQuit:
+                    self.index -= 1 if self.index - 1 >= 0 else 0
+                    print("\nLe Doss %d est sélectionner" %self.patients[self.index]["Doss"])
+                    self.__copyToClipboard__(str(self.patients[self.index]["Doss"]))
+                else:
+                    self.index = len(self.patients) - 1
+                    print("\nSaisie annulé\nDossier sélectionner : %d" %self.patients[self.index]["Doss"])
+                    self.haveToQuit = False
+            elif key.char == "o" or key.char == "O":
+                if self.finished:
+                    return True
                 if not self.haveToQuit:
                     if self.patients[self.index]["Type"] == "E":
                         print("doss %d n'a pas d'écriture", flush=True)
@@ -46,26 +67,16 @@ class Patients:
                         print("Le dossier %d est %s\n" %(self.patients[self.index]["Doss"], self.patients[self.index]["Type"]), flush=True)
                     self.index += 1
                     if self.index >= len(self.patients):
-                        print("Appuyer sur entré pour confirmer la saisie", flush=True)
+                        print("Appuyer sur entrez pour confirmer la saisie", flush=True)
                         self.haveToQuit = True
                     else:
                         self.__copyToClipboard__(str(self.patients[self.index]["Doss"]))
                         print("Le dossier %d a été copier dans le press-papier" %self.patients[self.index]["Doss"], flush=True)
                         if self.patients[self.index]["Type"] != "":
                             print("Son dernier type était : %s" %self.patients[self.index]["Type"])
-                else:
-                    print("Saisie validé")
-                    return False
-            elif key == Key.backspace:
-                if not self.haveToQuit:
-                    self.index -= 1 if self.index - 1 >= 0 else 0
-                    print("\nLe Doss %d est sélectionner" %self.patients[self.index]["Doss"])
-                    self.__copyToClipboard__(str(self.patients[self.index]["Doss"]))
-                else:
-                    self.index = len(self.patients) - 1
-                    print("\nSaisie annulé\nDossier sélectionner : %d" %self.patients[self.index]["Doss"])
-                    self.haveToQuit = False
             else:
+                if self.finished:
+                    return True
                 if self.haveToQuit:
                     return True
                 while i < len(self.Commands):
@@ -114,7 +125,7 @@ class Patients:
                     print("Le numero entré n'est pas un nombre\nIl a été ignoré", flush=True)
             buf = input("> ")
         buf = input("appuyer sur entrée lorsque vous êtes prêt à tapper le dossier dans cegi\n")
-        print("len du truc = ", len(self.patients), flush=True)
+        print("Nombre de patients: ", len(self.patients), flush=True)
 
     def __copyToClipboard__(self, str):
         command = 'echo ' + str.strip() + '| clip'
@@ -130,11 +141,13 @@ class Patients:
         self.__copyToClipboard__(str(self.patients[self.index]["Doss"]))
         print("Le dossier %d a été copier dans le press-papier" %self.patients[self.index]["Doss"], flush=True)
         self.get_input()
-        self.__printPatients__(True)
 
-    def __printPatients__(self, clear=False):
+    def __printPatients__(self, clear=False, pau=False):
         for patient in self.patients:
             print("%d -> %s\r" %(patient['Doss'], patient['Type']), flush=True)
+        if (pau):
+            print("Pressez entrer pour continuer", flush=True)
+            k = input()
 
 
 
