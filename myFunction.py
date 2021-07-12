@@ -32,9 +32,7 @@ class Patients:
         good = 0
         i = 0
         try:
-            if key == Key.esc:
-                return False
-            elif key == Key.enter:
+            if key == Key.enter:
                 if self.haveToQuit:
                     if not self.finished:
                         print("Saisie validé")
@@ -74,6 +72,8 @@ class Patients:
                         print("Le dossier %d a été copier dans le press-papier" %self.patients[self.index]["Doss"], flush=True)
                         if self.patients[self.index]["Type"] != "":
                             print("Son dernier type était : %s" %self.patients[self.index]["Type"])
+            if key.char == '<' or key.char == '>':
+                return False
             else:
                 if self.finished:
                     return True

@@ -2,7 +2,7 @@ from cx_Freeze import setup, Executable
 
 base = None    
 
-executables = [Executable("test.py", base=base)]
+executables = [Executable("pointageHPA.py", base=base)]
 
 packages = ["idna", "os", "pynput"]
 options = {
@@ -12,7 +12,7 @@ options = {
 }
 
 setup(
-    name = "autoPoint",
+    name = "<first_ever>",
     options = options,
     version = "0.5",
     description = 'For pointing thing for HPA',
