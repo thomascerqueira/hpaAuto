@@ -77,29 +77,6 @@ class Patients:
                     self.patients[self.index]["Type"] = self.Types[self.Commands[i].upper()]
                     self.patients[self.index]["Code"] = self.Commands[i].upper()
                     print("doss %d num %d est %s" %(self.index, self.patients[self.index]["Doss"], self.patients[self.index]["Type"]), flush=True)
-                # else:
-                #     print("Pas trouvé", flush=True)
-
-            # elif key.char == ('m') or key.char == ('M'):
-            #     if not self.haveToQuit:
-            #         self.patients[self.index]["Type"] = "Mutuelle"
-            #         print("doss %d num %d est mutuelle" %(self.index, self.patients[self.index]["Doss"]), flush=True)
-            # elif key.char == ('s') or key.char == ('S'):
-            #     if not self.haveToQuit:
-            #         self.patients[self.index]["Type"] = "Sécu" 
-            #         print("doss %d num %d est sécu" %(self.index, self.patients[self.index]["Doss"]), flush=True)
-            # elif key.char == ('r') or key.char == ('R'):
-            #     if not self.haveToQuit:
-            #         self.patients[self.index]["Type"] = "Réglé" 
-            #         print("doss %d num %d est réglé" %(self.index, self.patients[self.index]["Doss"]), flush=True)
-            # elif key.char == ('n') or key.char == ('N'):
-            #     if not self.haveToQuit:
-            #         self.patients[self.index]["Type"] = "Non réglé" 
-            #         print("doss %d num %d est non réglé" %(self.index, self.patients[self.index]["Doss"]), flush=True)
-            # elif key.char == ('e') or key.char == ('E'):
-            #     if not self.haveToQuit:
-            #         self.patients[self.index]["Type"] = "E" 
-            #         print("doss %d num %d n'a pas d'écriture" %(self.index, self.patients[self.index]["Doss"]), flush=True)
         except:
             pass
 
