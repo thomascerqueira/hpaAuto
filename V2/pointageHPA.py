@@ -69,8 +69,8 @@ if __name__ == '__main__':
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
         print("clipboard = ", pyperclip.paste())
-        patient["Type"] = fileHandler.__getType__()
         bot.copyPage(patient["Code"])
+        # patient["Type"] = fileHandler.__getType__()
     for patient in patients:
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))
