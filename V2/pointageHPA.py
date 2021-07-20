@@ -84,12 +84,12 @@ if __name__ == '__main__':
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
         keyboardPress(keyBoard, Key.esc)
-        time.sleep(1)
+        usleep(100)
     for patient in patients:
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))
             getType(patient)
-        Counts[patient["Type"]] += 1
+        Counts[patient["Type"]] = Counts[patient["Type"]] + 1
         print(patient)
     excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
     print("Nombres totaux:")
