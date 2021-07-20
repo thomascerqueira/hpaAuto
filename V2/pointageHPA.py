@@ -55,6 +55,9 @@ if __name__ == '__main__':
 
     print("Sélectionner le fichier contenant la listes des patients")
     path, patients = fileHandler.__getPatients__()
+    print(patients)
+
+    temp = input()
     
     print("Positionner la souris sur l'icone cegi et appuyer sur c")
     mousePos, mousePos1 = MousePos.get_Mouse_Pos()

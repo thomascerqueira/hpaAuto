@@ -3,6 +3,7 @@ from pynput import keyboard
 from pynput.mouse import Button, Controller as mouseController
 from pynput.keyboard import Key, Listener, Controller as keyboardController
 import time
+import pyperclip
 
 usleep = lambda x: time.sleep(x/1000000.0)
 
@@ -58,23 +59,23 @@ class Bot:
     def copyPage(self, num):
         #faire un right clique pour copier le numero du dossier
         self.mouse.position = self.copyPos
-        usleep(200)
+        time.sleep(2)
         mouseClick(self.mouse, TRUE)
-        time.sleep(1)
+        print("je colle ", pyperclip.paste)
+        time.sleep(2)
         self.mouse.position = self.cegiPos
-        time.sleep(1)
-        
+        time.sleep(2)
         mouseClick(self.mouse)
-        time.sleep(1)
-        
+        print("je clique")
+        time.sleep(2)
         self.mouse.position = self.copyPos
-        time.sleep(1)
-        
+        time.sleep(2)
         mouseClick(self.mouse)
-        time.sleep(1)
-        
+        print("Je clique")
+        time.sleep(2)
         keyboardPress(self.keyboard, Key.esc)
-        time.sleep(1)
+        print("je quitte")
+        time.sleep(2)
         
 
     def printPos(self):
