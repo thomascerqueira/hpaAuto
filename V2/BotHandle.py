@@ -60,17 +60,22 @@ class Bot:
         self.mouse.position = self.copyPos
         usleep(200)
         mouseClick(self.mouse, TRUE)
-        usleep(20)
+        time.sleep(1)
         self.mouse.position = self.cegiPos
-        usleep(20)
+        time.sleep(1)
+        
         mouseClick(self.mouse)
-        usleep(20)
+        time.sleep(1)
+        
         self.mouse.position = self.copyPos
-        usleep(20)
+        time.sleep(1)
+        
         mouseClick(self.mouse)
-        usleep(20)
+        time.sleep(1)
+        
         keyboardPress(self.keyboard, Key.esc)
-        usleep(20)
+        time.sleep(1)
+        
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)
