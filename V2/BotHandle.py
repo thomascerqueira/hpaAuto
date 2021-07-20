@@ -38,7 +38,7 @@ class GetMousePos:
                 if self.status == 0:
                     self.cegiPos = self.mouse.position
                     self.status = 1
-                    print("Positionner la souris sur 'Copy All to Clipboard'")
+                    print("Positionner la souris sur 'Copy All to Clipboard' et appuyer sur c")
                 else:
                     self.copyPos = self.mouse.position
                     return False
@@ -65,22 +65,22 @@ class Bot:
     def copyPage(self, num):
         #faire un right clique pour copier le numero du dossier
         self.mouse.position = self.copyPos
-        time.sleep(2)
+        usleep(200)
         mouseClick(self.mouse)
-        time.sleep(2)
+        usleep(200)
         mouseClick(self.mouse, TRUE)
         print("je colle ", pyperclip.paste())
-        time.sleep(2)
+        usleep(200)
         self.mouse.position = self.cegiPos
-        time.sleep(2)
+        usleep(200)
         mouseClick(self.mouse)
         print("je clique")
-        time.sleep(2)
+        usleep(200)
         self.mouse.position = self.copyPos
-        time.sleep(2)
+        usleep(200)
         mouseClick(self.mouse)
         print("Je clique")
-        time.sleep(2)        
+        usleep(200)        
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)
