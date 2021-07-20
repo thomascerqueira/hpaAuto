@@ -66,7 +66,7 @@ if __name__ == '__main__':
     fileHandler = FileHandler()
     MousePos = GetMousePos()
     excel = ExcelHandle()
-    regle, secu, mut, nr, pe = 0
+    regle, secu, mut, nr, pe = 0, 0, 0, 0, 0
 
     print("Sélectionner le fichier contenant la listes des patients")
     path, patients = fileHandler.__getPatients__()
