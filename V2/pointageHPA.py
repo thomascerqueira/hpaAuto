@@ -1,9 +1,9 @@
 from pynput import keyboard
-from pynput.keyboard import Key, Listener
-from pynput.mouse import Button, Controller
+from pynput.keyboard import Key, Listener, Controller
 
 import pyperclip
 import os
+import time
 
 from FileHandler import *
 from BotHandle import *
@@ -45,10 +45,9 @@ def emergencyStop(key):
         print("ERMERGENCY STOP")
         os._exit(84)
 
-
-
 if __name__ == '__main__':
     error = []
+    keyBoard = Controller()
     fileHandler = FileHandler()
     MousePos = GetMousePos()
     excel = ExcelHandle()
@@ -70,7 +69,9 @@ if __name__ == '__main__':
         pyperclip.copy(str(patient["Code"]))
         print("clipboard = ", pyperclip.paste())
         bot.copyPage(patient["Code"])
-        # patient["Type"] = fileHandler.__getType__()
+        patient["Type"] = fileHandler.__getType__()
+        keyboardPress(keyBoard, Key.esc)
+        time.sleep(2)
     for patient in patients:
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))

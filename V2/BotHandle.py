@@ -1,5 +1,6 @@
 from tkinter.constants import TRUE
 from pynput import keyboard
+from pynput import mouse
 from pynput.mouse import Button, Controller as mouseController
 from pynput.keyboard import Key, Listener, Controller as keyboardController
 import time
@@ -28,6 +29,7 @@ class GetMousePos:
     cegiPos = (0,0)
     copyPos = (0,0)
     mouse = mouseController()
+    keyboard = keyboardController()
     status = 0
 
     def on_release(self, key):
@@ -39,6 +41,8 @@ class GetMousePos:
                     print("Positionner la souris sur 'Copy All to Clipboard'")
                 else:
                     self.copyPos = self.mouse.position
+                    self.mouse.position = (self.mouse.position, self.mouse.position + 200)
+                    mouseClick(self.mouse)
                     return False
         except:
             pass
@@ -65,20 +69,16 @@ class Bot:
         mouseClick(self.mouse, TRUE)
         print("je colle ", pyperclip.paste())
         time.sleep(2)
-        # self.mouse.position = self.cegiPos
-        # time.sleep(2)
-        # mouseClick(self.mouse)
-        # print("je clique")
-        # time.sleep(2)
-        # self.mouse.position = self.copyPos
-        # time.sleep(2)
-        # mouseClick(self.mouse)
-        # print("Je clique")
-        # time.sleep(2)
-        # keyboardPress(self.keyboard, Key.esc)
-        # print("je quitte")
-        # time.sleep(2)
-        
+        self.mouse.position = self.cegiPos
+        time.sleep(2)
+        mouseClick(self.mouse)
+        print("je clique")
+        time.sleep(2)
+        self.mouse.position = self.copyPos
+        time.sleep(2)
+        mouseClick(self.mouse)
+        print("Je clique")
+        time.sleep(2)        
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)
