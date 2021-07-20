@@ -1,3 +1,4 @@
+from tkinter.constants import TRUE
 from pynput import keyboard
 from pynput.mouse import Button, Controller as mouseController
 from pynput.keyboard import Key, Listener, Controller as keyboardController
@@ -19,26 +20,32 @@ def keyboardPress(keyboard, key, maj=False):
             keyboard.press(key)
             keyboard.release(key)
     else:
-        keyboard.press('a')
-        keyboard.release('a') 
+        keyboard.press(key)
+        keyboard.release(key) 
 
 class GetMousePos:
-    mousePos = (0,0)
+    cegiPos = (0,0)
+    copyPos = (0,0)
     mouse = mouseController()
+    status = 0
 
     def on_release(self, key):
-        self.mousePos
         try:
             if key.char == 'c' or key.char == 'C':
-                self.mousePos = self.mouse.position
-                return False
+                if self.status == 0:
+                    self.cegiPos = self.mouse.position
+                    self.status = 1
+                    print("Positionner la souris sur 'Copy All to Clipboard'")
+                else:
+                    self.copyPos = self.mouse.position
+                    return False
         except:
             pass
 
     def get_Mouse_Pos(self):
         with Listener(on_release=self.on_release) as listener:
             listener.join()
-        return self.mousePos
+        return self.cegiPos, self.copyPos
 
 class Bot:
     mouse = mouseController()
@@ -50,6 +57,10 @@ class Bot:
 
     def copyPage(self, num):
         #faire un right clique pour copier le numero du dossier
+        self.mouse.position = self.copyPos
+        usleep(200)
+        mouseClick(self.mouse, TRUE)
+        usleep(20)
         self.mouse.position = self.cegiPos
         usleep(20)
         mouseClick(self.mouse)
@@ -58,7 +69,7 @@ class Bot:
         usleep(20)
         mouseClick(self.mouse)
         usleep(20)
-        keyboardPress(self.keyboard, 'a')
+        keyboardPress(self.keyboard, Key.esc)
         usleep(20)
 
     def printPos(self):

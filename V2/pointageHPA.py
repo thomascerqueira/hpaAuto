@@ -57,8 +57,7 @@ if __name__ == '__main__':
     path, patients = fileHandler.__getPatients__()
     
     print("Positionner la souris sur l'icone cegi et appuyer sur c")
-    mousePos = MousePos.get_Mouse_Pos()
-    mousePos1 = (mousePos[0], mousePos[1] + 373)
+    mousePos, mousePos1 = MousePos.get_Mouse_Pos()
     bot = Bot(mousePos, mousePos1)
     bot.printPos()
 
