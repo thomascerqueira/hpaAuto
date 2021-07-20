@@ -48,6 +48,9 @@ def emergencyStop(key):
 
 
 if __name__ == '__main__':
+    if not pyperclip.is_available():
+        print("pas de pyperclip")
+        os._exit(84)
     error = []
     fileHandler = FileHandler()
     MousePos = GetMousePos()
@@ -68,6 +71,7 @@ if __name__ == '__main__':
     keyListener.start()
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
+        print("clipboard = ", pyperclip.paste())
         patient["Type"] = fileHandler.__getType__()
         bot.copyPage(patient["Code"])
     for patient in patients:
