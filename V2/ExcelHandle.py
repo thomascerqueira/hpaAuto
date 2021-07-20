@@ -44,6 +44,6 @@ class ExcelHandle:
             topCell = xl_rowcol_to_cell(1, i + 1)
             endCell = xl_rowcol_to_cell(actual - 1, i + 1)
             form = "=NBVAL(" + topCell + ":" + endCell + ')'
-            self.writeFormula(worksheet, actual, i + 1, form)
+            self.writeInCell(worksheet, actual, i + 1, form)
         workbook.close()
 

@@ -70,9 +70,6 @@ if __name__ == '__main__':
 
     print("Sélectionner le fichier contenant la listes des patients")
     path, patients = fileHandler.__getPatients__()
-    print(patients)
-
-    temp = input()
     
     print("Positionner la souris sur l'icone cegi et appuyer sur c")
     mousePos, mousePos1 = MousePos.get_Mouse_Pos()
@@ -96,9 +93,9 @@ if __name__ == '__main__':
         print(patient)
     excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
     print("Nombres totaux:")
-    print("Réglé:\t%d", regle)
-    print("Réglé:\t%d", secu)
-    print("Réglé:\t%d", mut)
-    print("Réglé:\t%d", nr)
-    print("Réglé:\t%d", pe)
+    print("Réglé:\t%d" %Counts["Réglé"])
+    print("Sécurité:\t%d" %Counts["Sécurité"])
+    print("Mutuelle:\t%d" %Counts["Sécurité"])
+    print("Non réglé:\t%d" %Counts["Non réglé"])
+    print("Pas d'écriture:\t%d" %Counts["Pas d'écriture"])
     temp = input("Appuyer sur Entrée pour quitter")
