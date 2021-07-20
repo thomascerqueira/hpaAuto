@@ -41,8 +41,6 @@ class GetMousePos:
                     print("Positionner la souris sur 'Copy All to Clipboard'")
                 else:
                     self.copyPos = self.mouse.position
-                    self.mouse.position = (self.mouse.position, self.mouse.position + 200)
-                    mouseClick(self.mouse)
                     return False
         except:
             pass
@@ -50,6 +48,10 @@ class GetMousePos:
     def get_Mouse_Pos(self):
         with Listener(on_release=self.on_release) as listener:
             listener.join()
+        self.mouse.position = (self.mouse.position[0] + 350, self.mouse.position[1])
+        usleep(20)
+        mouseClick(self.mouse)
+        usleep(200)
         return self.cegiPos, self.copyPos
 
 class Bot:
