@@ -27,17 +27,22 @@ class ExcelHandle:
 
         workbook = xlsxwriter.Workbook(name + ".xlsx")
         worksheet = workbook.add_worksheet()
+        formatCoche = workbook.add_format()
+        formatFit = workbook.add_format()
 
+        formatCoche.set_align('right')
+        formatFit.set_align('left')
+        formatFit.set_shrink()
         worksheet.write('A1', 'Dossier')
         for i in range(len(self.Types)):
             cell = xl_rowcol_to_cell(0, i + 1)
-            worksheet.write(cell, self.Types[i])
+            worksheet.write(cell, self.Types[i], formatFit)
 
         for patient in patients:
             cell = xl_rowcol_to_cell(actual, 0)
-            worksheet.write(cell, patient["Code"])
+            worksheet.write(cell, patient["Code"], formatFit)
             cell = xl_rowcol_to_cell(actual, findInArray(self.Types, patient["Type"]) + 1)
-            worksheet.write(cell, "x")
+            worksheet.write(cell, "x", formatCoche)
             actual += 1
 
         for i in range(len(tab)):

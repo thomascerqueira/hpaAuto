@@ -53,7 +53,7 @@ def getType(patient):
                 print("NR\t-\tNon réglé")
                 print("E\t-\tPas d'écriture")
             else:
-                Type = input("Le type de patients n'est pas reconnu\nEntrer son type ")
+                Type = input("Le type de patient n'est pas reconnu\nEntrer son type ")
 
 def emergencyStop(key):
     if (key == keyboard.Key.f8):
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     excel = ExcelHandle()
     regle, secu, mut, nr, pe = 0, 0, 0, 0, 0
 
-    print("Sélectionner le fichier contenant la listes des patients")
+    print("Sélectionner le fichier contenant la liste des patients")
     path, patients = fileHandler.__getPatients__()
     
     print("Positionner la souris sur l'icone cegi et appuyer sur c")
@@ -80,7 +80,7 @@ if __name__ == '__main__':
     keyListener.start()
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
-        print("clipboard = ", pyperclip.paste())
+        # print("clipboard = ", pyperclip.paste())
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
         keyboardPress(keyBoard, Key.esc)
@@ -95,7 +95,7 @@ if __name__ == '__main__':
     print("Nombres totaux:")
     print("Réglé:\t%d" %Counts["Réglé"])
     print("Sécurité:\t%d" %Counts["Sécurité"])
-    print("Mutuelle:\t%d" %Counts["Sécurité"])
+    print("Mutuelle:\t%d" %Counts["Mutuelle"])
     print("Non réglé:\t%d" %Counts["Non réglé"])
     print("Pas d'écriture:\t%d" %Counts["Pas d'écriture"])
     temp = input("Appuyer sur Entrée pour quitter")

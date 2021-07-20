@@ -30,7 +30,7 @@ class FileHandler:
                                 patients.append({"Code": int(tab[2]),
                                                 "Type": ""})
                             except:
-                                print("Error on line: ", line)
+                                print("Erreur sur la ligne: ", line)
         except:
             print("Le fichier n'existe pas ou alors il y a un problème dedans")
             os._exit(84)
