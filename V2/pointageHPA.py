@@ -67,7 +67,7 @@ if __name__ == '__main__':
     keyListener = keyboard.Listener(on_release=emergencyStop)
     keyListener.start()
     for patient in patients:
-        pyperclip.copy(patient["Code"])
+        pyperclip.copy(str(patient["Code"]))
         patient["Type"] = fileHandler.__getType__()
         bot.copyPage(patient["Code"])
     for patient in patients:
