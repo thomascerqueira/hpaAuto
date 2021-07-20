@@ -65,14 +65,13 @@ class Bot:
     def copyPage(self, num):
         #faire un right clique pour copier le numero du dossier
         self.mouse.position = self.copyPos
-        time.sleep(1)
         mouseClick(self.mouse)
-        usleep(500)
+        usleep(1)
         mouseClick(self.mouse, TRUE)
         print("je colle ", pyperclip.paste())
         usleep(1)
         self.mouse.position = self.cegiPos
-        time.sleep(1)
+        usleep(500)
         mouseClick(self.mouse)
         print("je clique")
         usleep(1)
@@ -80,7 +79,7 @@ class Bot:
         time.sleep(1)
         mouseClick(self.mouse)
         print("Je clique")
-        usleep(500)     
+        usleep(1)     
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)
