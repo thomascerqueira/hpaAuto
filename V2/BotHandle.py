@@ -67,20 +67,20 @@ class Bot:
         self.mouse.position = self.copyPos
         time.sleep(1)
         mouseClick(self.mouse)
-        time.sleep(1)
+        usleep(500)
         mouseClick(self.mouse, TRUE)
         print("je colle ", pyperclip.paste())
-        time.sleep(1)
+        usleep(500)
         self.mouse.position = self.cegiPos
         time.sleep(1)
         mouseClick(self.mouse)
         print("je clique")
-        time.sleep(1)
+        usleep(500)
         self.mouse.position = self.copyPos
         time.sleep(1)
         mouseClick(self.mouse)
         print("Je clique")
-        time.sleep(1)        
+        usleep(500)     
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)

@@ -71,7 +71,7 @@ if __name__ == '__main__':
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
         keyboardPress(keyBoard, Key.esc)
-        time.sleep(2)
+        time.sleep(1)
     for patient in patients:
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))
