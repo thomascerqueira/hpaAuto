@@ -62,6 +62,7 @@ def emergencyStop(key):
 
 if __name__ == '__main__':
     error = []
+    actual = 0
     keyBoard = Controller()
     fileHandler = FileHandler()
     MousePos = GetMousePos()
@@ -81,6 +82,8 @@ if __name__ == '__main__':
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
         # print("clipboard = ", pyperclip.paste())
+        print("Pourcentage terminé:\t%.2f" %actual/len(patients))
+        actual += 1
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
         keyboardPress(keyBoard, Key.esc)
