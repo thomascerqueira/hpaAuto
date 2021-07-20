@@ -48,9 +48,6 @@ def emergencyStop(key):
 
 
 if __name__ == '__main__':
-    if not pyperclip.is_available():
-        print("pas de pyperclip")
-        os._exit(84)
     error = []
     fileHandler = FileHandler()
     MousePos = GetMousePos()
