@@ -19,6 +19,14 @@ Types = {
         "R": "Réglé"
     }
 
+Counts = {
+        "Pas d'écriture": 0,
+        "Mutuelle": 0,
+        "Sécurité": 0,
+        "Non réglé": 0,
+        "Réglé": 0
+    }
+
 def getType(patient):
     passed = False
     Type = ""
@@ -38,7 +46,14 @@ def getType(patient):
             patient["Type"] = Types[Commands[i].upper()]
             break
         else:
-            Type = input("Le type de patients n'est pas reconnu\nEntrer son type ")
+            if Type == 'h' or Type == 'H':
+                print("R\t-\tRéglé")
+                print("S\t-\tSécurité (caisse)")
+                print("M\t-\tMutuelle")
+                print("NR\t-\tNon réglé")
+                print("E\t-\tPas d'écriture")
+            else:
+                Type = input("Le type de patients n'est pas reconnu\nEntrer son type ")
 
 def emergencyStop(key):
     if (key == keyboard.Key.f8):
@@ -51,6 +66,7 @@ if __name__ == '__main__':
     fileHandler = FileHandler()
     MousePos = GetMousePos()
     excel = ExcelHandle()
+    regle, secu, mut, nr, pe = 0
 
     print("Sélectionner le fichier contenant la listes des patients")
     path, patients = fileHandler.__getPatients__()
@@ -76,7 +92,13 @@ if __name__ == '__main__':
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))
             getType(patient)
+        Counts[patient["Type"]] += 1
         print(patient)
-    excel.writeInFile(path, patients)
-
-    
+    excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
+    print("Nombres totaux:")
+    print("Réglé:\t%d", regle)
+    print("Réglé:\t%d", secu)
+    print("Réglé:\t%d", mut)
+    print("Réglé:\t%d", nr)
+    print("Réglé:\t%d", pe)
+    temp = input("Appuyer sur Entrée pour quitter")

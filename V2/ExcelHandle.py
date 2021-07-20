@@ -12,7 +12,16 @@ def findInArray(array, value):
 class ExcelHandle:
     Types = ["Réglé", "Sécurité", "Mutuelle", "Non réglé", "Pas d'écriture"]
 
-    def writeInFile(self, path, patients):
+    def writeInCell(self, worksheet, row, col, value):
+        cell = xl_rowcol_to_cell(row, col)
+        worksheet.write(cell, value)
+    
+    def writeFormula(self, worksheet, row, col, value):
+        cell = xl_rowcol_to_cell(row, col)
+        worksheet.write_formula(cell, value)
+
+    def writeInFile(self, path, patients, regle, secu, mut, nr, pe):
+        tab = [regle, secu, mut, nr, pe]
         actual = 1
         name = ((path.split('/'))[-1].split('.'))[0]
 
@@ -31,5 +40,10 @@ class ExcelHandle:
             worksheet.write(cell, "x")
             actual += 1
 
+        for i in range(len(tab)):
+            topCell = xl_rowcol_to_cell(1, i + 1)
+            endCell = xl_rowcol_to_cell(actual - 1, i + 1)
+            form = "=NBVAL(" + topCell + ":" + endCell + ')'
+            self.writeFormula(worksheet, actual, i + 1, form)
         workbook.close()
 
