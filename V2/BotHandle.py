@@ -49,7 +49,7 @@ class GetMousePos:
         with Listener(on_release=self.on_release) as listener:
             listener.join()
         self.mouse.position = (self.mouse.position[0] + 350, self.mouse.position[1])
-        usleep(20)
+        time.sleep(2)
         mouseClick(self.mouse)
         usleep(200)
         return self.cegiPos, self.copyPos
