@@ -5,8 +5,11 @@ from pynput.mouse import Button, Controller as mouseController
 from pynput.keyboard import Key, Listener, Controller as keyboardController
 import time
 import pyperclip
+import os
 
-usleep = lambda x: time.sleep(x/1000000.0)
+
+def usleep(x): return time.sleep(x/1000000.0)
+
 
 def mouseClick(mouse, wich=False):
     if not wich:
@@ -16,6 +19,7 @@ def mouseClick(mouse, wich=False):
         mouse.press(Button.right)
         mouse.release(Button.right)
 
+
 def keyboardPress(keyboard, key, maj=False):
     if maj:
         with keyboard.pressed(Key.shift):
@@ -23,11 +27,12 @@ def keyboardPress(keyboard, key, maj=False):
             keyboard.release(key)
     else:
         keyboard.press(key)
-        keyboard.release(key) 
+        keyboard.release(key)
+
 
 class GetMousePos:
-    cegiPos = (0,0)
-    copyPos = (0,0)
+    cegiPos = (0, 0)
+    copyPos = (0, 0)
     mouse = mouseController()
     keyboard = keyboardController()
     status = 0
@@ -38,7 +43,8 @@ class GetMousePos:
                 if self.status == 0:
                     self.cegiPos = self.mouse.position
                     self.status = 1
-                    print("Positionner la souris sur 'Copy All to Clipboard' et appuyer sur c")
+                    print(
+                        "Positionner la souris sur 'Copy All to Clipboard' et appuyer sur c")
                 else:
                     self.copyPos = self.mouse.position
                     return False
@@ -48,11 +54,13 @@ class GetMousePos:
     def get_Mouse_Pos(self):
         with Listener(on_release=self.on_release) as listener:
             listener.join()
-        self.mouse.position = (self.mouse.position[0] + 350, self.mouse.position[1])
+        self.mouse.position = (
+            self.mouse.position[0] + 350, self.mouse.position[1])
         time.sleep(2)
         mouseClick(self.mouse)
         time.sleep(1)
         return self.cegiPos, self.copyPos
+
 
 class Bot:
     mouse = mouseController()
@@ -62,8 +70,30 @@ class Bot:
         self.cegiPos = mousePos1
         self.copyPos = mousePos2
 
+    def emergencyStop(self, key):
+        if (key == keyboard.Key.f8):
+            print("ERMERGENCY STOP")
+            os._exit(84)
+
+    def __loop__(self, patients, fileHandler):
+        actual = 0
+        keyBoard = keyboardController()
+
+        keyListener = keyboard.Listener(on_release=self.emergencyStop)
+        keyListener.start()
+        for patient in patients:
+            pyperclip.copy(str(patient["Code"]))
+            # print("clipboard = ", pyperclip.paste())
+            actual += 1
+            print("Pourcentage terminé:\t%.2f%%" %
+                  (actual/len(patients) * 100))
+            self.copyPage(patient["Code"])
+            patient["Type"] = fileHandler.__getType__()
+            keyboardPress(keyBoard, Key.esc)
+            usleep(100)
+
     def copyPage(self, num):
-        #faire un right clique pour copier le numero du dossier
+        # faire un right clique pour copier le numero du dossier
         self.mouse.position = self.copyPos
         mouseClick(self.mouse)
         usleep(100)
@@ -79,7 +109,7 @@ class Bot:
         time.sleep(1)
         mouseClick(self.mouse)
         # print("Je clique")
-        time.sleep(1)   
+        time.sleep(1)
 
     def printPos(self):
         print(self.cegiPos, self.copyPos)
