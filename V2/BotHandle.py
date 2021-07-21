@@ -78,15 +78,20 @@ class Bot:
     def __loop__(self, patients, fileHandler):
         actual = 0
         keyBoard = keyboardController()
+        timeStart = time.time()
+        timeActual = time.time()
+        timeMax = time.time() + len(patients) * 2
 
         keyListener = keyboard.Listener(on_release=self.emergencyStop)
         keyListener.start()
         for patient in patients:
+            timeActual = time.time() - timeStart
             pyperclip.copy(str(patient["Code"]))
             # print("clipboard = ", pyperclip.paste())
             actual += 1
-            print("Pourcentage terminé:\t%.2f%%" %
-                  (actual/len(patients) * 100))
+            print("Pourcentage terminé:\t%.2f%%\tTemps total: %02d:%02d\tTemps restant: %02d:%02d" %
+                  (actual/len(patients) * 100, int(timeActual / 60), int(timeActual % 60),
+                  int((timeMax - time.time()) / 60), int((timeMax - time.time()) % 60)))
             self.copyPage(patient["Code"])
             patient["Type"] = fileHandler.__getType__()
             keyboardPress(keyBoard, Key.esc)
