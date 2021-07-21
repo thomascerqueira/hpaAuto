@@ -1,9 +1,4 @@
-from pynput import keyboard
-from pynput.keyboard import Key, Listener, Controller
-
 import pyperclip
-import os
-import time
 
 from FileHandler import *
 from BotHandle import *

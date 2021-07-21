@@ -1,10 +1,8 @@
 import os
-import pynput
 import tkinter as tk
 import pyperclip
 
 from tkinter import filedialog
-from pynput.keyboard import Key, Listener
 
 class FileHandler:
     def __getPatients__(self):

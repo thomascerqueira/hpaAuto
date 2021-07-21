@@ -1,5 +1,3 @@
-from re import T
-from typing import Type
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell
 

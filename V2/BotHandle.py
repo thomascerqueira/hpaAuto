@@ -1,4 +1,3 @@
-from tkinter.constants import TRUE
 from pynput import keyboard
 from pynput import mouse
 from pynput.mouse import Button, Controller as mouseController
@@ -102,7 +101,7 @@ class Bot:
         self.mouse.position = self.copyPos
         mouseClick(self.mouse)
         usleep(100)
-        mouseClick(self.mouse, TRUE)
+        mouseClick(self.mouse, True)
         # print("je colle ", pyperclip.paste())
         usleep(100)
         self.mouse.position = self.cegiPos
