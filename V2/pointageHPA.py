@@ -50,8 +50,9 @@ def getType(patient):
                 print("R\t-\tRéglé")
                 print("S\t-\tSécurité (caisse)")
                 print("M\t-\tMutuelle")
-                print("NR\t-\tNon réglé")
+                print("N\t-\tNon réglé")
                 print("E\t-\tPas d'écriture")
+                Type = input("Quel type voulez vous ? ")
             else:
                 Type = input("Le type de patient n'est pas reconnu\nEntrer son type ")
 

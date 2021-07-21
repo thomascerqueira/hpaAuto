@@ -50,5 +50,9 @@ class ExcelHandle:
             endCell = xl_rowcol_to_cell(actual - 1, i + 1)
             form = "=COUNTA(" + topCell + ":" + endCell + ')'
             self.writeFormula(worksheet, actual, i + 1, form)
+        topCell = xl_rowcol_to_cell(actual, 1)
+        endCell = xl_rowcol_to_cell(actual, len(tab))
+        form = "=SUM(" + topCell + ":" + endCell + ")"
+        self.writeFormula(worksheet, actual, len(tab) + 1, form)
         workbook.close()
 
