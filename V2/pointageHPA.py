@@ -82,8 +82,8 @@ if __name__ == '__main__':
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
         # print("clipboard = ", pyperclip.paste())
-        print("Pourcentage terminé:\t%.2f" %(actual/len(patients)))
         actual += 1
+        print("Pourcentage terminé:\t%.2f" %(actual/len(patients) * 100))
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
         keyboardPress(keyBoard, Key.esc)
@@ -95,8 +95,8 @@ if __name__ == '__main__':
         Counts[patient["Type"]] = Counts[patient["Type"]] + 1
         print(patient)
     excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
-    print("Nombres totaux:")
-    print("Réglé:\t%d" %Counts["Réglé"])
+    print("Nombres totaux:\t%d" %sum(Counts.values()))
+    print("Réglé:\t\t%d" %Counts["Réglé"])
     print("Sécurité:\t%d" %Counts["Sécurité"])
     print("Mutuelle:\t%d" %Counts["Mutuelle"])
     print("Non réglé:\t%d" %Counts["Non réglé"])
