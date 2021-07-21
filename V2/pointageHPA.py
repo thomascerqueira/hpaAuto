@@ -84,7 +84,7 @@ if __name__ == '__main__':
             nbPatientMan -= 1
             print("Nombre de patients manuel restant: %d\n" %nbPatientMan)
         Counts[patient["Type"]] = Counts[patient["Type"]] + 1
-        print(patient)
+        print("%d: %s" %(patient["Code"], patient["Type"]))
     excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
     print("Nombres totaux:\t%d" %sum(Counts.values()))
     print("Réglé:\t\t%d" %Counts["Réglé"])
