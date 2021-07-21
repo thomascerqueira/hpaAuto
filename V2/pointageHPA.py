@@ -34,7 +34,7 @@ def getType(patient):
         i = 0
         good = False
         if not passed:
-            Type = input("Le patient %d n'a pas de type, il a été copier\nEntrer son type " %patient["Code"])
+            Type = input("\nLe patient %d n'a pas de type, il a été copier\nEntrer son type " %patient["Code"])
         passed = True
         while i < len(Commands):
             if Type == str(Commands[i]):
@@ -56,18 +56,12 @@ def getType(patient):
             else:
                 Type = input("Le type de patient n'est pas reconnu\nEntrer son type ")
 
-def emergencyStop(key):
-    if (key == keyboard.Key.f8):
-        print("ERMERGENCY STOP")
-        os._exit(84)
-
 if __name__ == '__main__':
     error = []
-    actual = 0
-    keyBoard = Controller()
     fileHandler = FileHandler()
     MousePos = GetMousePos()
     excel = ExcelHandle()
+    nbPatientMan = 0
     regle, secu, mut, nr, pe = 0, 0, 0, 0, 0
 
     print("Sélectionner le fichier contenant la liste des patients")
@@ -78,21 +72,17 @@ if __name__ == '__main__':
     bot = Bot(mousePos, mousePos1)
     bot.printPos()
 
-    keyListener = keyboard.Listener(on_release=emergencyStop)
-    keyListener.start()
+    bot.__loop__(patients, fileHandler)
     for patient in patients:
-        pyperclip.copy(str(patient["Code"]))
-        # print("clipboard = ", pyperclip.paste())
-        actual += 1
-        print("Pourcentage terminé:\t%.2f" %(actual/len(patients) * 100))
-        bot.copyPage(patient["Code"])
-        patient["Type"] = fileHandler.__getType__()
-        keyboardPress(keyBoard, Key.esc)
-        usleep(100)
+        if not patient["Type"]:
+            nbPatientMan += 1
+    print("Nombre de patients à faire manuellement: %d\n" %nbPatientMan)
     for patient in patients:
         if not patient["Type"]:
             pyperclip.copy(str(patient["Code"]))
             getType(patient)
+            nbPatientMan -= 1
+            print("Nombre de patients manuel restant: %d\n" %nbPatientMan)
         Counts[patient["Type"]] = Counts[patient["Type"]] + 1
         print(patient)
     excel.writeInFile(path, patients, regle, secu, mut, nr, pe)
