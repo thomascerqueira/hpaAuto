@@ -82,7 +82,7 @@ if __name__ == '__main__':
     for patient in patients:
         pyperclip.copy(str(patient["Code"]))
         # print("clipboard = ", pyperclip.paste())
-        print("Pourcentage terminé:\t%.2f" %(actual/len(patients)))
+        print("Pourcentage terminé:\t%.2f" %(actual/len(patients) * 100))
         actual += 1
         bot.copyPage(patient["Code"])
         patient["Type"] = fileHandler.__getType__()
