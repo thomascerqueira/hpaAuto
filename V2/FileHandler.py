@@ -57,6 +57,8 @@ class FileHandler:
                     if code == 2:
                         return "Pas MUT", False, Mutuelle
                     else:
+                        if tab[i].startswith("│Pas d'écriture"):
+                            return "Pas d'écriture", False, Mutuelle
                         return "", False, Mutuelle
                 tab1 = tab[i].split('│')
                 try:
