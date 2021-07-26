@@ -1,5 +1,9 @@
 import xlsxwriter
 from xlsxwriter.utility import xl_rowcol_to_cell
+import os
+
+Types = ["Réglé", "Sécurité", "Mutuelle", "Non réglé", "Pas d'écriture", "Nom Mutuelle"]
+TypesMUT = ["Payé", "Non payé", "Mutuelle"]
 
 def findInArray(array, value):
     for i in range(len(array)):
@@ -8,7 +12,7 @@ def findInArray(array, value):
     return -1
 
 class ExcelHandle:
-    Types = ["Réglé", "Sécurité", "Mutuelle", "Non réglé", "Pas d'écriture"]
+    realType = []
 
     def writeInCell(self, worksheet, row, col, value):
         cell = xl_rowcol_to_cell(row, col)
@@ -18,13 +22,8 @@ class ExcelHandle:
         cell = xl_rowcol_to_cell(row, col)
         worksheet.write_formula(cell, value)
 
-    def writeInFile(self, path, patients, regle, secu, mut, nr, pe):
-        tab = [regle, secu, mut, nr, pe]
+    def writePatients(self, workbook, worksheet, patients, code):
         actual = 1
-        name = ((path.split('/'))[-1].split('.'))[0]
-
-        workbook = xlsxwriter.Workbook(name + ".xlsx")
-        worksheet = workbook.add_worksheet()
         formatCoche = workbook.add_format()
         formatFit = workbook.add_format()
 
@@ -32,17 +31,22 @@ class ExcelHandle:
         formatFit.set_align('left')
         formatFit.set_shrink()
         worksheet.write('A1', 'Dossier')
-        for i in range(len(self.Types)):
+        for i in range(len(self.realType)):
             cell = xl_rowcol_to_cell(0, i + 1)
-            worksheet.write(cell, self.Types[i], formatFit)
+            worksheet.write(cell, self.realType[i], formatFit)
 
         for patient in patients:
             cell = xl_rowcol_to_cell(actual, 0)
             worksheet.write(cell, patient["Code"], formatFit)
-            cell = xl_rowcol_to_cell(actual, findInArray(self.Types, patient["Type"]) + 1)
+            cell = xl_rowcol_to_cell(actual, findInArray(self.realType, patient["Type"]) + 1)
             worksheet.write(cell, "x", formatCoche)
+            if code == 2:
+                self.writeInCell(worksheet, actual, 3, patient["Mut"])
+            else:
+                self.writeInCell(worksheet, actual, 6, patient["Mut"])
             actual += 1
 
+    def writeTOTAL(self, worksheet, actual, tab):
         for i in range(len(tab)):
             topCell = xl_rowcol_to_cell(1, i + 1)
             endCell = xl_rowcol_to_cell(actual - 1, i + 1)
@@ -52,5 +56,21 @@ class ExcelHandle:
         endCell = xl_rowcol_to_cell(actual, len(tab))
         form = "=SUM(" + topCell + ":" + endCell + ")"
         self.writeFormula(worksheet, actual, len(tab) + 1, form)
-        workbook.close()
 
+    def writeInFile(self, path, patients, tab, code):
+        try:
+            os.mkdir("Résultats")
+        except:
+            pass
+        name = ((path.split('/'))[-1].split('.'))[0]
+        if code == 1:
+            newPath = "Résultats/" + name + ".xlsx"
+            self.realType = Types.copy()
+        elif code == 2:
+            newPath = "Résultats/" + name + "_MUT.xlsx"
+            self.realType = TypesMUT.copy()
+        workbook = xlsxwriter.Workbook(newPath)
+        worksheet = workbook.add_worksheet()
+        self.writePatients(workbook, worksheet, patients, code)
+        self.writeTOTAL(worksheet, len(patients) + 1, tab)
+        workbook.close()
