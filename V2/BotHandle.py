@@ -79,7 +79,7 @@ class Bot:
         keyBoard = keyboardController()
         timeStart = time.time()
         timeActual = time.time()
-        timeMax = time.time() + len(patients) * 2
+        timeMax = time.time() + len(patients) * 2.3
 
         keyListener = keyboard.Listener(on_release=self.emergencyStop)
         keyListener.start()
