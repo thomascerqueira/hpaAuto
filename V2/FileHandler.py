@@ -1,7 +1,6 @@
 import os
 import tkinter as tk
 import pyperclip
-
 from tkinter import filedialog
 
 class FileHandler:
@@ -26,7 +25,8 @@ class FileHandler:
                             tab = line.split('!')
                             try:
                                 patients.append({"Code": int(tab[2]),
-                                                "Type": ""})
+                                                "Type": "",
+                                                "Mut": ""})
                             except:
                                 print("Erreur sur la ligne: ", line)
         except:
@@ -43,26 +43,41 @@ class FileHandler:
             startIndex += 1
         return Type
 
-    def __getType__(self):
+    def __getType__(self, code):
         Caisse = ""
         Mutuelle = ""
         clipboard = pyperclip.paste()
         lastLine = ""
         tab = clipboard.split('\n')
         good = False
+
         for i in range(len(tab)):
             if good:
-                if tab[i].startswith('──'):
-                    return ""
+                if tab[i].startswith('──') or tab[i].startswith("│Pas d'écriture"):
+                    if code == 2:
+                        if tab[i].startswith("│Pas d'écriture"):
+                            return "Pas MUT", False, Mutuelle
+                    else:
+                        if tab[i].startswith("│Pas d'écriture"):
+                            return "Pas d'écriture", False, Mutuelle
+                    return "", False, Mutuelle
                 tab1 = tab[i].split('│')
                 try:
-                    if tab1[2].startswith('FAC'):
-                        lastLine = tab1[3]
+                    if code == 2:
+                        if tab1[2].startswith('TOTAL MUTUELLE__'):
+                            value = tab1[2].split(' ')
+                            if int((value[-1].split(','))[0]) == 0:
+                                return "Payé", True, Mutuelle
+                            else:
+                                return "Non payé", True, Mutuelle
                     else:
-                        if lastLine == Caisse:
-                            return "Sécurité"
-                        elif lastLine == Mutuelle:
-                            return "Mutuelle"
+                        if tab1[2].startswith('FAC'):
+                            lastLine = tab1[3]
+                        else:
+                            if lastLine == Caisse:
+                                return "Sécurité", True, Mutuelle
+                            elif lastLine == Mutuelle:
+                                return "Mutuelle", True, Mutuelle
                 except:
                     pass
             if tab[i].startswith('│Assuré..... '):
@@ -72,3 +87,4 @@ class FileHandler:
             if tab[i].startswith('│   Date   │'):
                 good = True
                 i += 1
+        return "", True, Mutuelle
