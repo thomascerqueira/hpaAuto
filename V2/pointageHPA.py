@@ -87,9 +87,9 @@ if __name__ == '__main__':
     realCount = {}
     realType = {}
 
-    func = input("Quelle type de pointage voulez-vous ?\n1: Pointage ATU\n2: Solde MUT\n")
+    func = input("Quel type de pointage voulez-vous ?\n1: Pointage ATU\n2: Solde MUT\n")
     while func != '1' and func != '2':
-        func = input("Quelle type de pointage voulez-vous ?\n1: Pointage ATU\n2: Solde MUT")
+        func = input("Quel type de pointage voulez-vous ?\n1: Pointage ATU\n2: Solde MUT")
 
     func = int(func)
     if func == 1:
