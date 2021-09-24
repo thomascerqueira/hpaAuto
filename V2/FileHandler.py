@@ -2,6 +2,8 @@ import os
 import tkinter as tk
 import pyperclip
 from tkinter import filedialog
+import sys
+
 
 class FileHandler:
     def __getPatients__(self):
@@ -9,11 +11,18 @@ class FileHandler:
         root = tk.Tk()
         root.withdraw()
 
-        file_path = filedialog.askopenfilename()
+        if len(sys.argv) == 2:
+            file_path = sys.argv[1]
+        else:
+            file_path = filedialog.askopenfilename()
         try:
             with open(file_path) as fp:
                 while True:
-                    line = fp.readline()
+                    try:
+                        line = fp.readline()
+                    except UnicodeDecodeError as err:
+                        print(err, "\nUn ou plusieurs charactere n'ont pas pû être lu")
+                        continue
                     if not line:
                         break
                     if line.startswith('! NOM et PRENOM'):
@@ -29,8 +38,13 @@ class FileHandler:
                                                 "Mut": ""})
                             except:
                                 print("Erreur sur la ligne: ", line)
-        except:
-            print("Le fichier n'existe pas ou alors il y a un problème dedans")
+        except FileNotFoundError as err:
+            print(err)
+            input("Le fichier n'existe pas ou alors il y a un problème dedans\n")
+            os._exit(84)
+        except RuntimeError as err:
+            print(err)
+            input()
             os._exit(84)
         return (file_path, patients)
 
